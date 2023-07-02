@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Input de Latitude e Longitude</title>
+    <style>
+      body {
+        background-image: url("https://s2.glbimg.com/dCbJGw8hXzNfTNIueq3OEZrhqxM=/1200x/smart/filters:cover():strip_icc()/s.glbimg.com/jo/g1/f/original/2017/02/17/thumbnail_huol_03mar16_cicero_oliveira_ar.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      body::before {
+        content: "";
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+    
+      .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
+    
+      .form-box {
+        width: 600px;
+        height: 400px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    
+      input {
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+    
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      button {
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+      }
+    
+      button[type="button"] {
+        background-color: #28a745;
+        color: #fff;
+      }
+    
+      .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    
+    <div class="form-box">
+      <form method="get" action="/resultado">
+        <h1>Informe sua localização atual</h1>
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude">
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude">
+
+        <button type="submit">Enviar</button>
+        <button type="button" id="btn-location">Ou busque sua localização atual</button>
+      </form>
+    </div>
+
+    <script>
+      const btnLocation = document.querySelector('#btn-location');
+    
+      btnLocation.addEventListener('click', () => {
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+    
+            document.querySelector('#latitude').value = latitude;
+            document.querySelector('#longitude').value = longitude;
+          }, error => {
+            console.log(error.message);
+          });
+        } else {
+          console.log('Geolocalização não suportada');
+        }
+      });
+    
+      const latitudeInput = document.querySelector('#latitude');
+      const longitudeInput = document.querySelector('#longitude');
+    
+      latitudeInput.addEventListener('change', () => {
+        const regex = /^-?\d{0,9}\.\d{0,9}$/;
+        const latitude = latitudeInput.value;
+    
+        if (!regex.test(latitude)) {
+          alert('A latitude informada é inválida');
+          latitudeInput.value = '';
+        }
+      });
+    
+      longitudeInput.addEventListener('change', () => {
+        const regex = /^-?\d{0,9}\.\d{0,9}$/;
+        const longitude = longitudeInput.value;
+    
+        if (!regex.test(longitude)) {
+          alert('A longitude informada é inválida');
+          longitudeInput.value = '';
+        }
+      });
+    </script>
+  </body>
+

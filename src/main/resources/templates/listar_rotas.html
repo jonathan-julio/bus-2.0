@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Rotas</title>
+</head>
+<body>
+    <h1>Lista de Rotas</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Identificador</th>
+            <!-- Adicione mais colunas conforme necessário para exibir os detalhes das rotas -->
+        </tr>
+        <!-- Iterar sobre as rotas e exibir os detalhes em linhas da tabela -->
+        <tr th:each="rota : ${rotas}">
+            <td th:text="${rota.id}"></td>
+            <td th:text="${rota.identificador}"></td>
+            <!-- Adicione mais colunas conforme necessário para exibir os detalhes das rotas -->
+        </tr>
+    </table>
+</body>
+</html>
